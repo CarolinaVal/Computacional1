@@ -1,0 +1,85 @@
+\documentclass[12 pt,twocolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,mexico]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{float}
+
+\begin{document}
+\title{Actividad 5}
+\author{Carolina Valenzuela Córdova}
+\date{23 de Febrero de 2016}
+\maketitle
+\newpage
+
+\section{\small Problema del péndulo}
+El péndulo es un sistema físico que puede oscilar bajo la acción gravitatoria u otra característica física (elasticidad, por ejemplo) y que está configurado por una masa suspendida de un punto o de un eje horizontal fijos mediante un hilo, una varilla, u otro dispositivo que sirve para medir el tiempo.
+
+Existen muy variados tipos de péndulos que, atendiendo a su configuración y usos, reciben los nombres apropiados: péndulo simple, péndulo compuesto, péndulo cicloidal, doble péndulo, péndulo de Foucault, péndulo de Newton, péndulo balístico, péndulo de torsión, péndulo esférico, etcétera.\cite{w}\\
+En general, las matemáticas de los péndulos son muy complicadas. sin embargo, se pueden tomar en cuenta suposiciones que facilitan los cálculos, como en el caso de un péndulo simple, donde las ecuaciones de movimiento puede resolverse de manera analítica para oscilaciones de ángulos pequeños.
+
+\section{\small Ecuación de movimiento y soluciones numéricas}
+
+Para esta actividad se nos solicitó un programa que fuera capaz de resolver la ecuación de movimiento del péndulo de forma numérica, pues dicha expresión no tiene las consideraciones antes mencionadas para ángulos pequeños, sino para cualquier ángulo. Deseamos encontrar la posición del péndulo a cualquier tiempo, si conocemos sus condiciones iniciales.
+La ecuación de movimiento del péndulo está dada por: $$\frac{d^2\theta}{dt^2}+\frac{g}{l}\sin{\theta}=0$$
+También se pide probar diferentes casos para mostrar que el código arroja resultados físicos.
+
+\section{\small Elaboración de la actividad}
+Se nos proporcionó un código ejemplo donde se resuelve una ecuación diferencial de segundo orden para cualquier ángulo theta.\\
+A continuación se presentan los pasos que se siguieron según la referencia\cite{s} para la elaboración del código:
+
+\begin{itemize}
+	\item Primero definimos la ecuación, la cual se escribe como:\\ theta''(t)+b*theta'(t)+c*sin(theta(t))=0 
+	\item Las tildes utilizadas son para denotar derivadas. Para resolverla, se utlizó la función scipy.integrate.odeint de Python.
+	\item Para poder utilizar dicha función, debemos convertir la ecuación en un sistema de ecuaciones de primer orden. Definimos la velocidad angular omega (t)=theta'(t), y obtenemos el sistema:\\
+	theta'(t)=omega(t)\\
+	omega'(t)= -b*omega(t)-c*sin(theta(t))
+	\item El vector $y$ será [theta,omega], e introducimos este sistema en python como:
+	\begin{verbatim}
+>>> def pend(y, t, b, c):
+...     theta, omega = y
+...     dydt = [omega, 
+-b*omega - c*np.sin(theta)]
+...     return dydt
+	\end{verbatim}
+	\item Le damos valores iniciales arbitrarios a $b$ y $c$.
+	\item Para considerar condiciones iniciales, asumimos que el péndulo está vertical con $\theta(0)=\pi-0.1$, y que está inicialmente en reposo, entonces $\omega}(0)=0$. Así, nuestro vector de condiciones iniciales es:
+\begin{verbatim}
+>>> y0 = [np.pi - 0.1, 0.0]
+
+\end{verbatim}
+
+\item Generamos una solución 101 con muestras uniformemente espaciadas en el intervalo $0<=t<=10$, así nuestro arreglo de tiempos es:
+\begin{verbatim}
+>>> t = np.linspace(0, 10, 101)
+\end{verbatim}
+\item Llamamos a odeint para generar la solución. Le damos los parámetros $b$ y $c$  utilizando $args$:
+\begin{verbatim}
+>>> from scipy.integrate import odeint
+>>> sol = odeint(pend, y0, t, args=(b, c))
+\end{verbatim}
+\item Para graficarlos, necesitamos agregar al código lo siguiente, de tal manera que la primera columna sea $\theta(t)$ y la segunda $\omega(t)$:
+\begin{verbatim}
+>>> import matplotlib.pyplot as plt
+>>> plt.plot(t, sol[:, 0], 'b', label=
+'theta(t)')
+>>> plt.plot(t, sol[:, 1], 'g', label=
+'omega(t)')
+>>> plt.legend(loc='best')
+>>> plt.xlabel('t')
+>>> plt.grid()
+>>> plt.show()
+
+\end{verbatim}
+\end{itemize}
+
+
+
+\begin{thebibliography}{widestlabel}
+	\bibitem{w} Wikipedia, https://es.wikipedia.org/wiki/Pendulo
+	\bibitem{s} Scipy, http://scipy.github.io/devdocs/generated/scipy.integrate.odeint.html
+\end{thebibliography}
+
+\end{document}
