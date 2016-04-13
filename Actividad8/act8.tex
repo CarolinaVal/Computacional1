@@ -1,0 +1,68 @@
+\documentclass[12 pt,twocolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,mexico]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{float}
+
+\begin{document}
+\title{Actividad 8: Bitácora de funcionamiento de Maxima}
+\author{Carolina Valenzuela Córdova}
+\date{5 de Abril de 2016}
+\maketitle
+\pagebreak
+
+\pagenumbering{gobble} % Remove page numbers (and reset to 1)
+\maketitle
+
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+\pagebreak
+
+\section{Geometría Tridimensional}
+\subsection{Álgebra lineal y vectores}
+En esta parte introdujimos vectores e hicimos algunas operaciones con ellos, tales como suma, resta, producto punto, producto cruz, etcétera.\\ A continuación se muestran los resultados de esta sección:
+
+\begin{verbatim}
+%i1) a:[1,2,3];
+(%o1)                              [1, 2, 3]
+(%i2) b:[2,-1,4];
+(%o2)                             [2, - 1, 4]
+(%i3) a+b;
+(%o3)                              [3, 1, 7]
+(%i4) a.b;
+(%o4)                                 12
+(%i5) load(vect);
+(%o5)           /usr/share/maxima/5.21.1/share
+/vector/vect.mac
+(%i6) a~b;
+(%o6)                      
+ [1, 2, 3] ~ [2, - 1, 4]
+(%i7) express(a~b);
+(%o7)                            [11, 2, - 5]
+(%i8) sqrt(a.a);
+(%o8)                              sqrt(14)
+(%i9) 
+\end{verbatim}	
+
+\subsection{Figuras en el espacio}
+Aquí graficamos un hiperboloide similar al de un ejemplo sugerido en el manual. Para ello utilizamos los siguientes comandos, cambiando el color del mismo y los límites de graficación:
+\begin{verbatim}
+hyperboloid:x**2+y**2-z**2=1;
+
+load(draw);
+
+draw3d(enhanced3d= true,
+ implicit(hyperboloid, x,-2,2,
+  y,-2,2, z,-1.5,1.5)
+ ,palette=[29,9,20]);
+\end{verbatim}
+
+
+
+
+
+\end{document}
