@@ -1,0 +1,59 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 11.08.0 ] */
+
+/* [wxMaxima: input   start ] */
+/* Funcioncilla F que depende de un parametrillo k */
+
+F1(k) := 1/sqrt(1-(k*sin(u))**2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* Desarrollo en seriecilla de F por Taylor*/
+
+taylor(1/sqrt(1-k^2*sin(u)^2),u,0,8);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* Definimos otra funcioncilla F2 como la expansion en serie anterior */
+
+define(F2(k), %);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* Definimos al seno del angulillo theta  */
+
+define(x(%theta), sin(%theta));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* Integramos la funcioncilla F2(k) desde cero a 90 grados */
+
+expand(integrate(K2(k),u,0,%pi/2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* Sustituimos en la integralilla anterior el seno de theta */
+
+subst(x(%theta/2), k, %);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* Factorizamos pi/2 de la expresioncilla anterior */
+
+% *2/%pi;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* Definimos ahora una funcioncilla F que depende solo del angulillo theta */
+
+define(F(%theta),expand(%));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* Finalmente definimos la funcioncilla del periodijillo */
+
+define(T(%theta),(2*%pi)*sqrt(l/g)*(F(%theta)));
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
